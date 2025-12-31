@@ -1,17 +1,3 @@
-# digit_recognizer
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
 # Digit Recognizer
 
 Digit Recognizer is a Flutter application that allows users to draw digits on the screen and recognizes them using a pre-trained MNIST CNN model (TensorFlow Lite). The app demonstrates on-device machine learning inference and interactive drawing capabilities.
