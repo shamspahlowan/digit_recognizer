@@ -10,8 +10,8 @@ Digit Recognizer is a Flutter application that allows users to draw digits on th
 
 ## Showcase
 
-- ![app image](assets\samples\digit_rec_pic_01.jpeg "App in action")
-- ![app image](assets\samples\digit_rec_pic_02.jpeg "App in action")
+![app image](assets/samples/digit_rec_pic_01.jpeg "App in action")
+![app image](assets/samples/digit_rec_pic_02.jpeg "App in action")
 
 ## Getting Started
 
