@@ -6,7 +6,12 @@ Digit Recognizer is a Flutter application that allows users to draw digits on th
 - Draw digits on a canvas
 - Real-time digit recognition using a TFLite model
 - Clean and intuitive UI
-- Cross-platform support (Android, iOS, Web, Windows, macOS, Linux)
+- Cross-platform support (Android, iOS)
+
+## Showcase
+
+- ![app image](assets\samples\digit_rec_pic_01.jpeg "App in action")
+- ![app image](assets\samples\digit_rec_pic_02.jpeg "App in action")
 
 ## Getting Started
 
