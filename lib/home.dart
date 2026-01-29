@@ -2,6 +2,7 @@ import 'package:digit_recognizer/provider/stroke_provider.dart';
 import 'package:digit_recognizer/services/classifier_service.dart';
 import 'package:digit_recognizer/utils/process_image.dart';
 import 'package:digit_recognizer/widgets/app_canvas.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -16,6 +17,7 @@ class _HomeState extends ConsumerState<Home> {
   final ClassifierService _classifier = ClassifierService();
   int? _predictedDigit;
   bool _isLoading = false;
+  List _predictions = [];
 
   @override
   void initState() {
@@ -42,10 +44,13 @@ class _HomeState extends ConsumerState<Home> {
         points,
         kCanvasSize,
       );
-      final digit = _classifier.predict(inputArray);
-
+      final predictionMap = _classifier.predict(inputArray);
+      final digit = predictionMap["predictedDigit"];
+      final predictions = predictionMap["predictions"];
+      print(predictions);
       setState(() {
         _predictedDigit = digit;
+        _predictions = predictions;
         _isLoading = false;
       });
     } catch (e) {
@@ -56,7 +61,10 @@ class _HomeState extends ConsumerState<Home> {
 
   void _clear() {
     ref.read(drawingProvider.notifier).clear();
-    setState(() => _predictedDigit = null);
+    setState(() {
+      _predictedDigit = null;
+      _predictions = [];
+    });
   }
 
   void _showSnackBar(String message) {
@@ -93,6 +101,8 @@ class _HomeState extends ConsumerState<Home> {
               const SizedBox(height: 24),
               // Canvas Card
               _buildCanvasCard(),
+              // prediction Card
+              if (_predictions.isNotEmpty) _buildPredictionGraph(),
               const Spacer(),
               // Action Buttons
               _buildActionButtons(colorScheme),
@@ -113,7 +123,7 @@ class _HomeState extends ConsumerState<Home> {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: const Color.fromARGB(125, 0, 0, 0),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -166,7 +176,7 @@ class _HomeState extends ConsumerState<Home> {
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: const Color.fromARGB(99, 0, 0, 0),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -200,6 +210,63 @@ class _HomeState extends ConsumerState<Home> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildPredictionGraph() {
+    final screenWidth = MediaQuery.of(context).size.width;
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      child: SizedBox(
+        width: screenWidth * 0.9,
+        height: 140,
+        child: BarChart(
+          BarChartData(
+            maxY: 100,
+            barGroups: List.generate(
+              10,
+              (i) => BarChartGroupData(
+                x: i,
+                barRods: [
+                  BarChartRodData(
+                    toY: (_predictions[i] * 100).clamp(0, 100),
+                    color: Colors.blue,
+                    width: 16,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ],
+              ),
+            ),
+            titlesData: FlTitlesData(
+              leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+              rightTitles: AxisTitles(
+                sideTitles: SideTitles(showTitles: false),
+              ),
+              topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+              bottomTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  getTitlesWidget: (value, meta) {
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 4),
+                      child: Text(
+                        value.toInt().toString(),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.black54,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+            gridData: FlGridData(show: false),
+            borderData: FlBorderData(show: false),
+            barTouchData: BarTouchData(enabled: false),
+          ),
+        ),
       ),
     );
   }

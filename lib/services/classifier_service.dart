@@ -21,10 +21,7 @@ class ClassifierService {
     }
   }
 
-  /// Predict digit from input array
-  /// Input: Float32List of 784 values (28x28)
-  /// Returns: predicted digit (0-9)
-  int predict(Float32List input) {
+  Map<String, dynamic> predict(Float32List input) {
     if (!_isLoaded || _interpreter == null) {
       throw Exception('Model not loaded. Call loadModel() first.');
     }
@@ -53,7 +50,7 @@ class ClassifierService {
     print('Probabilities: $probabilities');
     print('Predicted digit: $predictedDigit (confidence: $maxProb)');
 
-    return predictedDigit;
+    return {"predictedDigit": predictedDigit, "predictions": probabilities};
   }
 
   /// Clean up resources

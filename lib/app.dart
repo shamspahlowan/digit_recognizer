@@ -21,19 +21,16 @@ class App extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.light,
-        // Samsung blue accent
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFF1428A0),
           brightness: Brightness.light,
         ),
-        // Clean white background
         scaffoldBackgroundColor: const Color(0xFFF7F7F7),
-        // Samsung-style app bar
         appBarTheme: const AppBarTheme(
           elevation: 0,
           centerTitle: true,
           backgroundColor: Colors.transparent,
-          foregroundColor: Color(0xFF1A1A1A),
+          foregroundColor: Color.fromARGB(139, 26, 26, 26),
           titleTextStyle: TextStyle(
             color: Color(0xFF1A1A1A),
             fontSize: 20,
@@ -41,7 +38,6 @@ class App extends StatelessWidget {
             letterSpacing: -0.5,
           ),
         ),
-        // Rounded buttons
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             elevation: 0,
@@ -51,7 +47,6 @@ class App extends StatelessWidget {
             ),
           ),
         ),
-        // Card theme
         cardTheme: CardThemeData(
           elevation: 0,
           shape: RoundedRectangleBorder(
